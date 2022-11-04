@@ -1,18 +1,23 @@
-import 'package:flutter/cupertino.dart';
+import 'package:flutter/material.dart';
 import 'package:flutter_riverpod/flutter_riverpod.dart';
 import 'package:riverpod_test/layout/default_layout.dart';
+import 'package:riverpod_test/riverpod/stream_provider.dart';
 
 class StreamProviderScreen extends ConsumerWidget {
   const StreamProviderScreen({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context, WidgetRef ref) {
+    final state = ref.watch(multiplesStreamProvider);
+
     return DefaultLayout(
       title: 'StreamProviderScreen',
-      body: Column(
-        children: [
-
-        ],
+      body: Center(
+        child: state.when(
+          data: (data) => Text(data.toString()),
+          error: (err, stack) => Text(err.toString()),
+          loading: () => CircularProgressIndicator(),
+        ),
       ),
     );
   }
